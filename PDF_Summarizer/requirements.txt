@@ -1,9 +1,14 @@
+unstructured
+tiktoken
+pinecone-client
+PyPDF2
+pypdf
 openai
 langchain
-langchain-openai
+langchain_openai
 langchain_community
-PyPDF2
+pandas
+numpy
 faiss-cpu
-tiktoken
 streamlit
 python-dotenv
