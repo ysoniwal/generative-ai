@@ -14,16 +14,20 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 # Load google pro 1.5 model endpoint
 model = genai.GenerativeModel('models/gemini-1.5-pro-latest')
 
-def get_gemini_response(input_text):
-    response=model.generate_content(input_text)
+def get_gemini_response(input_prompt, text):
+    response=model.generate_content([input_prompt, text])
     return response.text
 
 def input_pdf_to_text(uploaded_file):
+    """
+    Input: uploaded pdf file
+    Output: all the text data of the pdf file
+    """
     # Read the uploaded file
     reader=pdf.PdfReader(uploaded_file)
     text=""
-    for page in range(len(reader.pages)):
-        page=reader.pages[page]
+    for i in range(len(reader.pages)):
+        page=reader.pages[i]
         text += str(page.extract_text())
     return text
 
@@ -53,5 +57,5 @@ submit = st.button("Submit")
 if submit:
     if uploaded_file is not None:
         text=input_pdf_to_text(uploaded_file)
-        response=get_gemini_response(input_prompt)
+        response=get_gemini_response(input_prompt, text)
         st.subheader(response)
