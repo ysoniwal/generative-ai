@@ -5,6 +5,11 @@ from langchain_community.vectorstores import Pinecone as PC
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_openai import OpenAIEmbeddings
 
+# Langchain QA chains and Question Answering
+from langchain.chains.question_answering import load_qa_chain
+from langchain.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
+
 import streamlit as st
 
 def display_video_thumbnail(youtube_video_url):
@@ -110,7 +115,32 @@ def preprocess_transcipt(youtube_link, llm_model, max_chars, chunk_overlap):
         st.success("Summary Generated!!", icon="✅")
 
         return pinecone_index
-    
+
+# For the Google Chat Model, create prompt and chain
+# Inputs to the prompt template are context and question
+def get_conversational_chain():
+    """
+    Create a prompt Template, invoke Gemini Model, create chain and return
+    """
+
+    # Create Prompt template
+    prompt_template = """
+    Answer the question as detailed as possible from the provided context, make sure to provide all the details, if the answer is not in
+    provided context just say, "answer is not available in the context", don't provide the wrong answer\n\n
+    Context:\n {context}?\n
+    Question: \n{question}\n
+    """
+    # Invoke Google Gemini Model
+    model=ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", temperature=0.3)
+
+    # Create prompt Template
+    prompt=PromptTemplate(template=prompt_template, input_variables=["context", "question"])
+
+    # Create Chain
+    chain=load_qa_chain(model, chain_type="stuff", prompt=prompt)
+
+    return chain
+
 def get_query_response(llm_model, user_query, maching_documents):
     prompt = """
     You will be given some context and you will be asked a question. You have to provide answer from the specified context only.

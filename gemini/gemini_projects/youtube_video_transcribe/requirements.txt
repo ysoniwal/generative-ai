@@ -2,16 +2,9 @@ streamlit
 google-generativeai
 python-dotenv
 youtube_transcript_api
-pathlib
-unstructured
-tiktoken
 pinecone-client
-PyPDF2
-pypdf
 openai
 langchain
 langchain_openai
 langchain_community
-pandas
-numpy
-faiss-cpu
+langchain_google_genai

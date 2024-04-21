@@ -9,12 +9,8 @@ chunk_overlap = 100
 
 import streamlit as st
 
-from utils import display_video_thumbnail
-from utils import extract_youtube_transcript_detail
-from utils import get_pinecone_index
 from utils import preprocess_transcipt
 from utils import get_query_response
-
 
 import google.generativeai as genai
 

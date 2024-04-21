@@ -4,7 +4,6 @@ load_dotenv()
 
 import streamlit as st
 import os
-import PyPDF2 as pdf
 
 from youtube_transcript_api import YouTubeTranscriptApi
 
